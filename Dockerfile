@@ -8,6 +8,9 @@ WORKDIR /app
 COPY gradle/ gradle/
 COPY gradlew settings.gradle build.gradle ./
 
+# Ensure Gradle wrapper is executable
+RUN chmod +x gradlew
+
 # Download dependencies
 RUN ./gradlew dependencies --no-daemon 2>&1 | grep -v "^Download" || true
 
