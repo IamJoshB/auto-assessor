@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: auto-assessor
+  mongodb:
+    uri: ${MONGODB_URI:}
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 200MB
+
+app:
+  storage:
+    s3-bucket: auto-assessor-files-364064100625-af-south-1-an
+    s3-region: af-south-1
+    s3-access-key: ${AWS_ACCESS_KEY_ID:}
+    s3-secret-key: ${AWS_SECRET_ACCESS_KEY:}
+  openai:
+    enabled: true
+    api-key: ${OPENAI_API_KEY:}
+    base-url: https://api.openai.com
+    model: gpt-5.5
+    damage-model: gpt-5.5
+    image-edit-model: gpt-image-2
+    max-in-memory-size-bytes: 49999999
+    organization: ${OPENAI_ORGANIZATION:}
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: alpha
+  api-docs:
+    path: /v3/api-docs

@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Vehicle Replacement Quote</title>
+    <style>
+      body {
+        font-family: "Helvetica", "Arial", sans-serif;
+        color: #1e1e1e;
+        font-size: 12px;
+        margin: 24px;
+      }
+      h1 {
+        font-size: 24px;
+        margin: 0 0 8px;
+      }
+      .subtitle {
+        color: #555;
+        margin-bottom: 20px;
+      }
+      h2 {
+        font-size: 16px;
+        margin: 20px 0 10px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      th,
+      td {
+        border: 1px solid #dddddd;
+        padding: 8px;
+        vertical-align: top;
+      }
+      th {
+        background-color: #f5f7fb;
+        text-align: left;
+      }
+      .product-image {
+        width: 96px;
+        height: 72px;
+        border: 1px solid #e1e1e1;
+      }
+      .totals {
+        margin-top: 14px;
+        width: 320px;
+        margin-left: auto;
+      }
+      .notes {
+        margin-top: 16px;
+        padding: 10px;
+        background: #fff8e8;
+        border: 1px solid #f0dbad;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Vehicle Panel Replacement Quote</h1>
+    <div class="subtitle">
+      Assessment ID: {{ASSESSMENT_ID}} | Generated: {{GENERATED_AT}}
+    </div>
+
+    <h2>Vehicle Details</h2>
+    <table>
+      <tbody>
+        {{VEHICLE_DATA_ROWS}}
+      </tbody>
+    </table>
+
+    <h2>Quoted Items</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Panel</th>
+          <th>Product Name</th>
+          <th>Description</th>
+          <th>Product Image</th>
+          <th>Product URL</th>
+          <th>Panel Price</th>
+          <th>Hardware Price</th>
+          <th>Qty</th>
+          <th>Line Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{QUOTE_ITEM_ROWS}}
+      </tbody>
+    </table>
+
+    <table class="totals">
+      <tbody>
+        <tr>
+          <th>Subtotal</th>
+          <td>{{QUOTE_SUBTOTAL}}</td>
+        </tr>
+        <tr>
+          <th>VAT (15%)</th>
+          <td>{{QUOTE_VAT}}</td>
+        </tr>
+        <tr>
+          <th>Total</th>
+          <td>{{QUOTE_TOTAL}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="notes"><b>Notes:</b> {{QUOTE_NOTES}}</div>
+  </body>
+</html>

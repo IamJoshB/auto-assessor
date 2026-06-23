@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vehicle Assessment Report</title>
+    <style>
+      @page {
+        margin: 24px;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Helvetica", "Arial", sans-serif;
+        color: #1f2933;
+        background: #f4f6f8;
+      }
+
+      .nedbank-header {
+        background-color: #009241;
+        background: linear-gradient(135deg, #00a64c 0%, #009241 100%);
+        color: white;
+        padding: 20px 24px;
+        margin: 0 0 24px 0;
+        border-bottom: 4px solid #006b31;
+      }
+
+      .nedbank-header-content {
+        display: table;
+        width: 100%;
+      }
+
+      .nedbank-branding {
+        display: table-cell;
+        vertical-align: middle;
+      }
+
+      .nedbank-logo {
+        font-weight: bold;
+        font-size: 14px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        color: white;
+      }
+
+      .nedbank-tagline {
+        font-size: 10px;
+        margin-top: 2px;
+        opacity: 0.9;
+      }
+
+      .header-info {
+        display: table-cell;
+        text-align: right;
+        vertical-align: middle;
+        font-size: 11px;
+      }
+
+      .nedbank-footer {
+        background: #f0f4f8;
+        border-top: 3px solid #00a64c;
+        padding: 12px 24px;
+        margin: 24px 0 0 0;
+        font-size: 9px;
+        color: #52606d;
+        text-align: center;
+      }
+
+      .page {
+        background: #ffffff;
+        border: 1px solid #d8dee4;
+        padding: 24px;
+        margin: 0 0 14px 0;
+      }
+
+      .page:first-of-type {
+        padding-top: 0;
+      }
+
+      h1,
+      h2,
+      h3 {
+        margin: 0;
+        color: #00a64c;
+      }
+
+      h1 {
+        font-size: 24px;
+        color: white;
+        margin-bottom: 8px;
+      }
+
+      h2 {
+        font-size: 16px;
+        margin-bottom: 10px;
+        border-bottom: 2px solid #00a64c;
+        padding-bottom: 6px;
+      }
+
+      h3 {
+        font-size: 14px;
+      }
+
+      .meta {
+        margin-top: 8px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.85);
+      }
+
+      .header-grid {
+        display: table;
+        width: 100%;
+      }
+
+      .header-left,
+      .header-right {
+        display: table-cell;
+        vertical-align: top;
+      }
+
+      .header-right {
+        text-align: right;
+      }
+
+      .kpis {
+        margin-top: 16px;
+        display: table;
+        width: 100%;
+      }
+
+      .kpi {
+        display: table-cell;
+        width: 50%;
+        background: linear-gradient(135deg, #f0f9f6 0%, #e8f6f1 100%);
+        border-left: 4px solid #00a64c;
+        padding: 12px;
+      }
+
+      .kpi-title {
+        font-size: 11px;
+        color: #009241;
+        text-transform: uppercase;
+        font-weight: 600;
+      }
+
+      .kpi-value {
+        margin-top: 6px;
+        font-size: 18px;
+        font-weight: bold;
+        color: #00a64c;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      th,
+      td {
+        border: 1px solid #d9e2ec;
+        padding: 8px;
+        font-size: 11px;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        background-color: #00a64c;
+        color: white;
+        font-weight: 600;
+        width: 30%;
+      }
+
+      .section {
+        margin-top: 16px;
+      }
+
+      .severity {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-weight: bold;
+        font-size: 10px;
+      }
+
+      .sev-high {
+        background: #fbd2d2;
+        color: #8a1c1c;
+      }
+
+      .sev-medium {
+        background: #fde8c5;
+        color: #8a5a10;
+      }
+
+      .sev-low {
+        background: #d3f9d8;
+        color: #006b31;
+      }
+
+      .sev-unknown {
+        background: #e4e7eb;
+        color: #243b53;
+      }
+
+      .panel-visual {
+        border: 2px solid #00a64c;
+        background: #f8fafc;
+        padding: 12px;
+      }
+
+      .panel {
+        fill: #cbd5e0;
+        stroke: #7b8794;
+        stroke-width: 2;
+      }
+
+      .panel.active {
+        fill: #00a64c;
+        stroke: #006b31;
+        stroke-width: 3;
+      }
+
+      .panel-legend {
+        margin-top: 10px;
+        display: table;
+        width: 100%;
+      }
+
+      .legend-item {
+        display: inline-block;
+        width: 24%;
+        margin-bottom: 6px;
+        font-size: 10px;
+      }
+
+      .legend-chip {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin-right: 6px;
+        border: 1px solid #7b8794;
+        background: #cbd5e0;
+      }
+
+      .legend-chip.active {
+        background: #00a64c;
+        border-color: #006b31;
+      }
+
+      .damage-grid {
+        margin-top: 8px;
+      }
+
+      .damage-card {
+        border: 1px solid #d9e2ec;
+        margin-bottom: 12px;
+        border-left: 4px solid #00a64c;
+      }
+
+      .damage-card-header {
+        background: linear-gradient(135deg, #f0f9f6 0%, #e8f6f1 100%);
+        padding: 8px;
+        border-bottom: 1px solid #00a64c;
+        font-weight: 600;
+        color: #009241;
+      }
+
+      .damage-image {
+        width: 100%;
+        height: auto;
+        max-height: 360px;
+        background: #ffffff;
+      }
+
+      .damage-card ul {
+        margin: 8px 14px 12px;
+        padding-left: 16px;
+        font-size: 11px;
+      }
+
+      .empty-state {
+        border: 1px dashed #00a64c;
+        color: #009241;
+        text-align: center;
+        padding: 20px;
+        font-size: 12px;
+        background: #f0f9f6;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="page">
+      <div class="nedbank-header">
+        <div class="nedbank-header-content">
+          <div class="nedbank-branding">
+            <div class="nedbank-logo">Nedbank</div>
+            <div class="nedbank-tagline">Vehicle Assessment Report</div>
+          </div>
+          <div class="header-info">
+            <div>{{ASSESSMENT_ID}}</div>
+            <div>{{GENERATED_AT}}</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="header-grid">
+        <div class="header-left">
+          <h1 style="color: #1f2933; margin-top: 16px">Assessment Overview</h1>
+        </div>
+      </div>
+
+      <div class="kpis">
+        <div class="kpi">
+          <div class="kpi-title">Odometer Reading</div>
+          <div class="kpi-value">{{ODOMETER_READING}}</div>
+        </div>
+        <div class="kpi">
+          <div class="kpi-title">Total Tokens Used</div>
+          <div class="kpi-value">{{TOTAL_TOKENS}}</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Vehicle Details</h2>
+        <table>
+          <tbody>
+            {{VEHICLE_DATA_ROWS}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Additional Extracted Fields</h2>
+        <table>
+          <tbody>
+            {{EXTRACTED_FIELDS_ROWS}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="nedbank-footer">
+        <strong>Nedbank Vehicle Assessment</strong> | Confidential | Generated
+        {{GENERATED_AT}}
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="section">
+        <h2>Damage Summary</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Angle</th>
+              <th>Panel</th>
+              <th>Category</th>
+              <th>Severity</th>
+              <th>Recommended Action</th>
+              <th>Summary</th>
+            </tr>
+          </thead>
+          <tbody>
+            {{DAMAGE_SUMMARY_ROWS}}
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Generic Panel Damage Map</h2>
+        {{HIGHLIGHTED_PANELS_SVG}}
+      </div>
+
+      <div class="nedbank-footer">
+        <strong>Nedbank Vehicle Assessment</strong> | Confidential | Assessment
+        ID: {{ASSESSMENT_ID}}
+      </div>
+    </section>
+
+    <section class="page">
+      <div class="section">
+        <h2>Damage Images</h2>
+        <div class="damage-grid">{{DAMAGE_IMAGE_CARDS}}</div>
+      </div>
+
+      <div class="nedbank-footer">
+        <strong>Nedbank Vehicle Assessment</strong> | Confidential | Total
+        Assessment Time: {{TOTAL_ANALYSIS_TIME}}
+      </div>
+    </section>
+  </body>
+</html>
