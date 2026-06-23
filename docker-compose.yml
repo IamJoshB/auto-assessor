@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  mongodb:
+    image: mongo:7.0-alpine
+    container_name: auto-assessor-mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: rootpassword
+      MONGO_INITDB_DATABASE: auto_assessor
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - auto-assessor-network
+
+  auto-assessor:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: auto-assessor-app
+    environment:
+      MONGODB_URI: mongodb://root:rootpassword@mongodb:27017/auto_assessor?authSource=admin&retryWrites=true&w=majority
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+      OPENAI_ORGANIZATION: ${OPENAI_ORGANIZATION:-}
+    ports:
+      - "8080:8080"
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    networks:
+      - auto-assessor-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  auto-assessor-network:
+    driver: bridge

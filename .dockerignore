@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# IDE
+.idea
+.vscode
+*.iml
+*.iws
+*.ipr
+.classpath
+.project
+.settings
+.factorypath
+.apt_generated
+
+# Gradle
+.gradle
+gradle-wrapper.properties
+gradlew.bat
+
+# Build artifacts
+build/
+out/
+target/
+dist/
+bin/
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# Documentation
+docs/
+*.md
+HELP.md
+
+# Environment files (local secrets)
+.env
+.env.*
+!.env.example
+
+# Misc
+.fake
+.vscode-server
