@@ -387,7 +387,7 @@ public class OpenAiChatVisionClient implements OpenAiVisionClient {
 		- Inspect the whole visible vehicle area in detail before returning findings.
 		- Zoom into the image if you need to.
 		- Make sure you analyze the image thouroughly. Panel by Panel
-		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents, Decolourization).
+		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents, Paint Decolourization).
 		- Include only visible vehicle damage findings.
 		- If there is no visible damage, return an empty findings array.
 		- Keep summary concise (max 20 words).
