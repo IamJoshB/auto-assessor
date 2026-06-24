@@ -383,8 +383,9 @@ public class OpenAiChatVisionClient implements OpenAiVisionClient {
 		  ]
 		}
 		Rules:
-		- Inspect the whole visible vehicle area in detail before returning findings.
-		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents).
+		- Inspect the whole visible vehicle area in detail before returning findings. Zoom into the image if you need to.
+		- Make sure you analyze the image thouroughly.
+		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents, Decolourization).
 		- Include only visible vehicle damage findings.
 		- If there is no visible damage, return an empty findings array.
 		- Keep summary concise (max 20 words).
@@ -421,7 +422,7 @@ Findings list:
 Draw one box for each finding in the provided numbered list.
 Each box must surround the reported damage area (including dents where present) and map to the same number.
 
-## ANNOTATION RULES
+## CRITICAL — ANNOTATION RULES
 For each numbered finding from the provided list, draw a rectangle directly on the ORIGINAL image:
 - Color: pure bright red (#FF0000)
 - Border thickness: 5–7 px, solid line, NO fill (transparent inside)
@@ -434,7 +435,7 @@ For each numbered finding from the provided list, draw a rectangle directly on t
 - If two defects are very close, draw two separate small boxes rather than one
   large box
 - If a listed finding cannot be located confidently, skip boxing that finding rather than guessing
-- If no findings were provided, return the original image unchanged
+- NB: If no findings were provided, return the original image unchanged
 
 ## DO NOT MARK
 Vehicle design features, panel lines, shadows, reflections, dirt/mud, water spots,
