@@ -369,33 +369,85 @@ public class OpenAiChatVisionClient implements OpenAiVisionClient {
 
 	private String buildDamageFindingsPrompt(String modelYear, String make, String model, VehicleImageAngle angle) {
 		return """
-		You are an expert vehicle damage assessor doing a deep and careful inspection. The inspection must be done panel by panel.
-			You do not look at the whole vehicle at once you focus and try finding the dents per panel.
-		Analyze this %s %s %s image from the %s angle and return JSON only in this exact shape:
-		{
-		  "findings": [
-		    {
-		      "category": "",
-		      "severity": "",
-		      "summary": "",
-			      "panel": "",
-			      "recommendedAction": ""
-		    }
-		  ]
-		}
-		VERY CRITICAL RULES:
-		- Inspect the whole visible vehicle area in detail before returning findings.
-		- Zoom into the image if you need to.
-		- Make sure you analyze the image thouroughly. Panel by Panel
-		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents, Paint Decolourization).
-		- Include only visible vehicle damage findings.
-		- If there is no visible damage, return an empty findings array.
-		- Keep summary concise (max 20 words).
-		- Use lowercase severity values: minor, moderate, severe.
-		- The panel field must be specific (for example: front bumper left, front-left fender, rear-right door).
-		- Use lowercase recommendedAction values: fix or replace.
-		- Choose replace for severe structural damage, torn metal/plastic, or broken parts; otherwise use fix.
-		""".formatted(modelYear, make, model, angle);
+You are an expert vehicle damage assessor performing a slow, panel-by-panel visual inspection of a single vehicle image.
+Your task is to detect only clearly visible vehicle damage, including subtle defects, while avoiding false positives from dirt, reflections, shadows, water, glare, and image compression artifacts.
+Analyze this %s %s %s image from the %s angle and return JSON only in this exact shape:
+{
+  "findings": [
+    {
+      "category": "",
+      "severity": "",
+      "summary": "",
+      "panel": "",
+      "recommendedAction": ""
+    }
+  ]
+}
+
+Inspection method:
+- Inspect one visible panel at a time, not the whole vehicle at once.
+- For each visible panel, look specifically for:
+  - dents
+  - dings
+  - creases
+  - scratches
+  - scuffs
+  - paint chips
+  - paint decolourization / fading
+  - cracks
+  - distortion / waviness in reflections that suggests metal deformation
+  - misalignment or edge deformation
+- Pay extra attention to panel edges, body lines, upper fender surfaces, bonnet/hood center and leading edge, bumper corners, and areas where reflections reveal shallow dents.
+- Act as if you are zooming in and re-checking each panel before finishing.
+- Inspect the full visible vehicle area before returning results.
+
+Critical detection rules:
+- Include subtle damage when clearly visible, including shallow dents, small dings, light scratches, chips, hairline cracks, and paint decolourization.
+- A shallow dent or ding may be indicated only by a small highlight/shadow shift or warped reflection. If the surface geometry appears locally deformed, count it as damage.
+- Paint decolourization must be reported when a localized paint area appears faded, discolored, oxidized, or inconsistent with the surrounding finish and is not explained by lighting alone.
+- Distinguish damage from dirt:
+  - Report damage only when there is visible surface deformation, paint disruption, cracking, chipping, or localized finish change.
+  - Do not report uniform dust, mud, road grime, water spots, glare, reflections, or shadow gradients as dents or paint damage.
+  - If an area could be dirt or lighting and there is no clear deformation or paint defect, do not include it.
+- Prefer recall over omission for clearly visible damage, but do not guess.
+
+Output rules:
+- Include only visible vehicle damage findings.
+- If there is no visible damage, return: {"findings":[]}
+- Keep summary concise, max 20 words.
+- Use lowercase severity values only: minor, moderate, severe.
+- Use lowercase recommendedAction values only: fix or replace.
+- Choose replace only for broken parts, torn material, major cracks, or severe structural deformation. Otherwise use fix.
+- The panel field must be very specific, for example:
+  - bonnet center
+  - bonnet front edge left
+  - front-left fender top edge
+  - front bumper left corner
+  - front-right door upper section
+
+Category rules:
+- Use one of these category values only:
+  - dent
+  - ding
+  - crease
+  - scratch
+  - scuff
+  - paint chip
+  - paint decolourization
+  - crack
+  - misalignment
+
+Severity guidance:
+- minor: faint, shallow, small-area cosmetic damage
+- moderate: clearly visible damage affecting a noticeable area
+- severe: broken, torn, cracked through, heavily deformed, or structurally significant damage
+
+Before finalizing:
+- Re-scan the bonnet/hood for discoloration, fading, or uneven paint tone.
+- Re-scan the top surfaces of both front fenders for small dings.
+- Re-scan bumper corners and body-line reflections for shallow dents.
+- Return JSON only. No markdown, no explanation, no extra text.
+""".formatted(modelYear, make, model, angle);
 	}
 
 	private String buildOdometerPrompt() {
