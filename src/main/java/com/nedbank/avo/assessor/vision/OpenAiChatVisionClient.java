@@ -369,7 +369,8 @@ public class OpenAiChatVisionClient implements OpenAiVisionClient {
 
 	private String buildDamageFindingsPrompt(String modelYear, String make, String model, VehicleImageAngle angle) {
 		return """
-		You are an expert vehicle damage assessor doing a deep and careful inspection.
+		You are an expert vehicle damage assessor doing a deep and careful inspection. The inspection must be done panel by panel.
+			You do not look at the whole vehicle at once you focus and try finding the dents per panel.
 		Analyze this %s %s %s image from the %s angle and return JSON only in this exact shape:
 		{
 		  "findings": [
@@ -382,9 +383,10 @@ public class OpenAiChatVisionClient implements OpenAiVisionClient {
 		    }
 		  ]
 		}
-		Rules:
-		- Inspect the whole visible vehicle area in detail before returning findings. Zoom into the image if you need to.
-		- Make sure you analyze the image thouroughly.
+		VERY CRITICAL RULES:
+		- Inspect the whole visible vehicle area in detail before returning findings.
+		- Zoom into the image if you need to.
+		- Make sure you analyze the image thouroughly. Panel by Panel
 		- Include subtle damage when clearly visible (light scratches, chips, hairline cracks, shallow dents, Decolourization).
 		- Include only visible vehicle damage findings.
 		- If there is no visible damage, return an empty findings array.
